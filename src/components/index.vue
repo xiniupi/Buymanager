@@ -46,13 +46,13 @@ export default {
       this.$router.push('/login')
     }
   },
-  beforeCreate() {
-    if(window.sessionStorage.getItem('token')){
-    }else{
-      this.$message.error('请先登录')   
-      this.$router.push('/login')
-    }
-  },
+  // beforeCreate() {
+  //   if(window.sessionStorage.getItem('token')){
+  //   }else{
+  //     this.$message.error('请先登录')   
+  //     this.$router.push('/login')
+  //   }
+  // },
   async created() {
       let res = await this.$axios.get('menus');
       //console.log(res);

@@ -48,4 +48,16 @@ let routes = [{
 let router = new VueRouter({
     routes
 });
+router.beforeEach((to, from, next) => {
+   if(to.path ==='/login'){
+       next();
+   }else{
+       if(window.sessionStorage.getItem('token')){
+           next()
+       }else{
+           Vue.prototype.$message.error('请重新登录2');
+           next('/login');
+       }
+   }
+  })
 export default router;
