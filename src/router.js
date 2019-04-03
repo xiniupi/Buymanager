@@ -11,10 +11,15 @@ import categories from './components/categories.vue'
 import orders from './components/orders.vue'
 import params from './components/params.vue'
 import reports from './components/reports.vue'
+import error from './components/error.vue'
 let routes = [{
     path:"/login",
     component:login,
     meta:{noLogin:true}
+},
+{
+    path: '/error',
+    component:error
 },
 {
     path:"/",
@@ -50,6 +55,10 @@ let router = new VueRouter({
     routes
 });
 router.beforeEach((to, from, next) => {
+    if(to.matched.length===0){
+        Vue.prototype.$message.error('您访问的地址有误,请重新登录');
+        next('/error')
+    }
    if(to.meta.noLogin==true){
        next();
    }else{

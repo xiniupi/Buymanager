@@ -10,7 +10,10 @@ import bread from './components/bread.vue'
 Vue.component('my-bread',bread);
 import myaxios from './myaxios.js';
 Vue.use(myaxios);
-
+import moment from 'moment'
+Vue.filter('formTime', (value,formDataT)=>{
+ return moment(value).format(formDataT);
+})
 new Vue({
   render: h => h(App),
   router

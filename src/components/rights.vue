@@ -7,36 +7,19 @@
       </el-col>
     </el-row>
 
-    <el-table  border style="width: 100%">
+    <el-table  border style="width: 100%" :data="rightList">
       <el-table-column type="index" width="50"></el-table-column>
-      <el-table-column  label="权限名称" width="180"></el-table-column>
-      <el-table-column  label="路径" width="180"></el-table-column>
-      <el-table-column  label="层级" width="180"></el-table-column>
-  
-      <el-table-column label="操作">
+      <el-table-column prop="authName" label="权限名称" width="180"></el-table-column>
+      <el-table-column prop="path" label="路径" width="180"></el-table-column>
+      <el-table-column prop="level" label="层级" width="180">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            @click="handleEdit(scope.$index, scope.row)"
-            plain
-            icon="el-icon-edit"
-          ></el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.row)"
-            icon="el-icon-delete"
-            plain
-          ></el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleRole(scope.row)"
-            icon="el-icon-check"
-            plain
-          ></el-button>
+          <span v-if="scope.row.level==0">一级</span>
+           <span v-else-if="scope.row.level==1">二级</span>
+            <span v-else>三级</span>
         </template>
       </el-table-column>
+  
+      
     </el-table>
     
   </div>
@@ -45,7 +28,16 @@
 <script>
 export default {
   name: "rights",
- 
+  data() {
+    return {
+      rightList:[]
+    }
+  },
+  async created() {
+    let res = await this.$axios.get('rights/list');
+    console.log(res);
+    this.rightList = res.data.data
+  },
 
 }
 </script>
