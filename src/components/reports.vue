@@ -9,9 +9,9 @@
 import echarts from "echarts";
 export default {
   name: "reports",
-  mounted() {
-    var myChart = echarts.init(this.$refs.main);
-    var option = {
+  data() {
+    return {
+       option : {
       title: {
         text: "堆叠区域图"
       },
@@ -94,7 +94,16 @@ export default {
         }
       ]
     }
-    myChart.setOption(option);
+    }
+  },
+ async mounted() {
+    var myChart = echarts.init(this.$refs.main);
+   let res = await this.$axios.get('reports/type/1')
+   for (const key in res.data.data) {
+    this.option[key] = res.data.data[key]
+   }
+   this.option.xAxis[0].boundaryGap = false;
+    myChart.setOption(this.option);
   }
 };
 </script>
