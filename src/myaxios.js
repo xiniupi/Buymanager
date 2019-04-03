@@ -1,4 +1,5 @@
 import axios from "axios";
+import router from './router.js'
 export default {
   install(Vue) {
     axios.defaults.baseURL = "http://localhost:8888/api/private/v1/";
@@ -21,6 +22,12 @@ export default {
     // Add a response interceptor
     axios.interceptors.response.use(
       function(response) {
+        if(response.data.meta.msg ==='无效token'&&response.data.meta.status===400){
+            router.push('/login');
+            Vue.prototype.$message.warning('这是无效token,请重新登录');
+            window.sessionStorage.removeItem('token');
+            return
+        }
         // Do something with response data
         if ([200, 201, 204].indexOf(response.data.meta.status) != -1) {
           Vue.prototype.$message.success(response.data.meta.msg);
