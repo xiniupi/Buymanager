@@ -13,7 +13,8 @@ import params from './components/params.vue'
 import reports from './components/reports.vue'
 let routes = [{
     path:"/login",
-    component:login
+    component:login,
+    meta:{noLogin:true}
 },
 {
     path:"/",
@@ -49,7 +50,7 @@ let router = new VueRouter({
     routes
 });
 router.beforeEach((to, from, next) => {
-   if(to.path ==='/login'){
+   if(to.meta.noLogin==true){
        next();
    }else{
        if(window.sessionStorage.getItem('token')){
